@@ -70,7 +70,7 @@ html { font-size: 16px; }
 body {
     background-color: var(--background);
     /* Wallpaper padrão do repositório GitHub */
-    background-image: url('https://raw.githubusercontent.com/leonardomverona/PublicManagementOS/main/Public%20Management%20OS.png');
+    background-image: url('https://raw.githubusercontent.com/leomarques20/pmos/8056ce9b3707610d37aba6deaf79d675d99da188/pmos.jpg');
     background-size: cover; background-position: center; background-attachment: fixed;
     height: 100vh; overflow: hidden; color: var(--text-color);
     transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, background-image 0.5s ease-in-out; user-select: none;
