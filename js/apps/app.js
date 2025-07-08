@@ -147,22 +147,38 @@ export function handleExportToPDF(winId) {
     }
 
     const winEl = winData.element;
+    const contentEl = winEl.querySelector('.window-content'); 
+    
+    if (!contentEl) {
+        showNotification("Conteúdo da janela não encontrado para exportação.", 3000);
+        return;
+    }
+
+    // Procura por um contêiner de aplicativo específico.
+    // Isso é útil para apps como o Kanban que têm um wrapper principal.
+    let elementToPrint = contentEl.querySelector('[class*="-app-container"]') || contentEl;
+
     const titleEl = winEl.querySelector('.window-title-text');
     const originalTitle = document.title;
     
     document.title = titleEl ? titleEl.textContent.replace('*','') : 'Exportação PMOS';
     document.body.classList.add('printing-mode');
-    winEl.classList.add('window-to-print');
+    
+    // Aplica a classe ao elemento mais específico encontrado.
+    elementToPrint.classList.add('window-to-print');
     
     showNotification("Preparando para exportação. Use 'Salvar como PDF' na caixa de impressão.", 4000);
 
     setTimeout(() => {
         window.print();
+        
         const cleanupPrintStyles = () => {
             document.body.classList.remove('printing-mode');
-            winEl.classList.remove('window-to-print');
+            elementToPrint.classList.remove('window-to-print');
             document.title = originalTitle;
+            window.onafterprint = null; 
         };
+
         if (window.onafterprint !== undefined) {
             window.onafterprint = cleanupPrintStyles;
         } else {
@@ -170,6 +186,7 @@ export function handleExportToPDF(winId) {
         }
     }, 250);
 }
+
 
 /**
  * Abre o explorador de arquivos para o usuário selecionar um arquivo para abrir.
